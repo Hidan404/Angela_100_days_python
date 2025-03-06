@@ -1,6 +1,7 @@
 import random
 
 lista_palavras = ["abacaxi", "banana", "cereja", "damasco", "elefante", "figo", "goiaba", "hortela", "iguana", "jabuticaba"]
+random.seed() 
 palavra_selecionada = random.choice(lista_palavras)
 mostrar = ["_" for _ in palavra_selecionada]
 
