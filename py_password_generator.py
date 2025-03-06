@@ -1,6 +1,7 @@
 import random
 import string
 import pyperclip
+import bcrypt
 
 
 def password_generator():
@@ -40,7 +41,16 @@ def password_generator():
     senha_gerada = "".join(senha) 
     
     pyperclip.copy(senha_gerada)
-    print(f"Senha gerada {senha_gerada}")
+    print(f"Senha gerada: {senha_gerada}")
+
+    senha_criptgrafada = bcrypt.hashpw(senha_gerada.encode("utf-8"),bcrypt.gensalt())
+
+    with open("senhas_Criptografa.txt", "a") as f:
+        f.write(senha_criptgrafada.decode("utf-8") + "\n")
+
+    
+
+
 
 if __name__ == "__main__":
     password_generator()    
