@@ -12,15 +12,17 @@ def jogar():
 
     while tentativas > 0 and  "_" in mostrar:
         print("".join(mostrar))
-
         tentativa = input("Digite uma letra: ").strip().lower()
+
+        
+        if tentativa.isalpha():
+            print("Digite apenas letras, não números")
+            continue
+
         if len(tentativa) > 1:
             print("Somente uma letra pode ser digitada")
             continue
 
-        if tentativa.isnumeric():
-            print("Digite apenas letras, não números")
-            continue
 
         if tentativa in palavra_selecionada:
             for indice, letra in enumerate(palavra_selecionada):
