@@ -18,6 +18,10 @@ def jogar():
             print("Somente uma letra pode ser digitada")
             continue
 
+        if tentativa.isdigit():
+            print("Digite apenas letras, não números")
+            continue
+
         if tentativa in palavra_selecionada:
             for indice, letra in enumerate(palavra_selecionada):
                 if tentativa == letra:
