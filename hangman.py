@@ -18,7 +18,7 @@ def jogar():
             print("Somente uma letra pode ser digitada")
             continue
 
-        if tentativa.isdigit():
+        if tentativa.isnumeric():
             print("Digite apenas letras, não números")
             continue
 
