@@ -20,7 +20,7 @@ def validar_range_numero(numero):
             raise ValueError
         return numero
     except ValueError:
-        print("Por favor, insira um número entre 0 e 25.")
+        print("Por favor, insira um número entre 0 e 33.")
         return None
 
 def encrypt(texto, deslocamento):
@@ -50,7 +50,7 @@ def cifra_cesar():
         if len(escolha) > 1:
             print("Escolha inválida. Por favor, selecione uma das opções.")
             continue
-        
+
         if escolha == '1':
             texto = input("Digite o texto para criptografar: ")
             deslocamento = int(input("Digite o deslocamento: "))
