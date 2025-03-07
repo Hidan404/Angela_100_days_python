@@ -99,7 +99,7 @@ def jogar():
         print("".join(mostrar))
         tentativa = input("Digite uma letra: ").strip().lower()
 
-        if not tentativa.isalpha():
+        if tentativa.isdigit():
             print("Digite apenas letras, não números")
             continue
 
