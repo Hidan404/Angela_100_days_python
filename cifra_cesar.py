@@ -26,7 +26,9 @@ def validar_range_numero(numero):
 def encrypt(texto, deslocamento):
     texto_criptografado = ""
     for l in texto:
-        l = chr(ord(l) + deslocamento)
+        if l.isalpha():
+            base = ord('A') if l.isupper() else ord('a')
+            l = chr((ord(l) - base + deslocamento) % 26 + base)
         texto_criptografado+= l
 
     pyperclip.copy(texto_criptografado)
@@ -35,7 +37,9 @@ def encrypt(texto, deslocamento):
 def decrypt(texto, deslocamento):
     texto_descriptografado = ""   
     for l in texto:
-        l = chr(ord(l) - deslocamento)
+        if l.isalpha():
+            base = ord('A') if l.isupper() else ord('a')
+            l = chr((ord(l) - base - deslocamento))
         texto_descriptografado+= l
 
     pyperclip.copy(texto_descriptografado)
