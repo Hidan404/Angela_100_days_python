@@ -39,7 +39,7 @@ def decrypt(texto, deslocamento):
     for l in texto:
         if l.isalpha():
             base = ord('A') if l.isupper() else ord('a')
-            l = chr((ord(l) - base - deslocamento))
+            l = chr((ord(l) - base - deslocamento) % 26 + base)
         texto_descriptografado+= l
 
     pyperclip.copy(texto_descriptografado)
