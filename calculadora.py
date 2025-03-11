@@ -27,10 +27,7 @@ class calculadora():
         return resultado
     
     def somar(self, *args):
-        resultado = args[0]
-        for num in args[1:]:
-            resultado += num
-        return resultado    
+        return sum(args)  
     
     def dividir(self, *args):
         resultado = args[0]
@@ -61,13 +58,16 @@ def ui():
             print(Fore.LIGHTRED_EX + "Saindo do progrma...")
             break
         if escolha_operaçao in lista_operacoes:
-           valores = input("Digite os numeros seprados por virgula: ").split(",")
-           numeros = [float(n) for n in valores]
+            nums = [float(n) for n in input("Números (separados por vírgula): ").split(",")]
 
-           calc = calculadora()
+            calc = calculadora()
 
-           if escolha_operaçao == "somar":
-               print(Fore.MAGENTA + f"{calc.somar(*numeros)}")
+            if escolha_operaçao == "somar":
+               soma = calc.somar(*nums)
+               print(Fore.MAGENTA + f"{soma}")
+            elif escolha_operaçao == "":
+                pass   
+
 
 
 
