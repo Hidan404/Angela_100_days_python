@@ -3,7 +3,7 @@ from colorama import Fore, Style, init
 
 class apresentacao():
 
-    def apresentacao_calculadora():
+    def apresentacao_calculadora(self):
         init(autoreset=True)
         print(Fore.CYAN + Style.BRIGHT + "===============================")
         print(Fore.YELLOW + Style.BRIGHT + "   Bem-vindo à Calculadora!    ")
@@ -59,3 +59,19 @@ def ui():
 
         if escolha_operaçao == "s":
             print(Fore.LIGHTRED_EX + "Saindo do progrma...")
+            break
+        if escolha_operaçao in lista_operacoes:
+           valores = input("Digite os numeros seprados por virgula: ").split(",")
+           numeros = [float(n) for n in valores]
+
+           calc = calculadora()
+
+           if escolha_operaçao == "somar":
+               print(Fore.MAGENTA + f"{calc.somar(*numeros)}")
+
+
+
+if __name__ == "__main__":
+    ui()    
+
+               
