@@ -1,0 +1,101 @@
+import random
+
+# Função para criar o baralho
+def criar_baralho():
+    naipes = ['Copas', 'Ouros', 'Espadas', 'Paus']
+    valores = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Valete', 'Dama', 'Rei', 'Ás']
+    
+    baralho = [(valor, naipe) for valor in valores for naipe in naipes]
+    random.shuffle(baralho)  # Embaralha o baralho
+    
+    return baralho
+
+# Função para pegar duas cartas aleatórias
+def pegar_duas_cartas(baralho):
+    carta1 = random.choice(baralho)
+    baralho.remove(carta1)
+    carta2 = random.choice(baralho)
+    baralho.remove(carta2)
+
+    return carta1, carta2
+
+# Função para obter o valor numérico das cartas
+def obter_valor(carta):
+    valor, naipe = carta
+    if valor in ['Valete', 'Dama', 'Rei']:
+        return 10
+    elif valor == 'Ás':
+        return 11  # Ás começa com 11, mas pode ser alterado para 1 se necessário
+    else:
+        return int(valor)
+
+# Função para calcular a soma das cartas
+def soma_cartas(cartas):
+    total = 0
+    ases = 0  # Contador de Áses, pois eles podem valer 1 ou 11
+
+    for carta in cartas:
+        total += obter_valor(carta)
+        if carta[0] == 'Ás':
+            ases += 1
+
+    # Ajustar a soma para que os Áses valham 1 se a soma for maior que 21
+    while total > 21 and ases:
+        total -= 10  # Troca o valor do Ás de 11 para 1
+        ases -= 1
+
+    return total
+
+# Criar o baralho e distribuir duas cartas para o jogador e o dealer
+baralho = criar_baralho()
+jogador = pegar_duas_cartas(baralho)
+dealer = pegar_duas_cartas(baralho)
+
+# Mostrar as cartas do jogador
+print("Cartas do jogador:", jogador)
+# Mostrar apenas uma carta do dealer
+print("Carta do dealer:", dealer[0])
+
+# Calcular e exibir a soma das cartas do jogador
+soma_jogador = soma_cartas(jogador)
+print("Soma das cartas do jogador:", soma_jogador)
+
+# Turno do jogador
+while soma_jogador < 21:
+    escolha = input("Deseja comprar outra carta? (sim/nao): ").strip().lower()
+    if escolha == "sim":
+        carta = random.choice(baralho)
+        baralho.remove(carta)
+        jogador.append(carta)
+        print("Sua carta:", carta)
+        soma_jogador = soma_cartas(jogador)
+        print("Soma das cartas do jogador:", soma_jogador)
+    else:
+        break
+
+# Verificar se o jogador estourou
+if soma_jogador > 21:
+    print("Você estourou! Mais que 21. O dealer venceu.")
+else:
+    # Turno do dealer (o dealer compra até ter 17 ou mais)
+    while soma_cartas(dealer) < 17:
+        carta = random.choice(baralho)
+        baralho.remove(carta)
+        dealer.append(carta)
+
+    # Mostrar cartas do dealer
+    print("\nCartas do dealer:", dealer)
+    soma_dealer = soma_cartas(dealer)
+    print("Soma das cartas do dealer:", soma_dealer)
+
+    # Determinar o vencedor
+    if soma_dealer > 21:
+        print("O dealer estourou! Você venceu!")
+    elif soma_dealer > soma_jogador:
+        print("O dealer venceu!")
+    elif soma_dealer < soma_jogador:
+        print("Você venceu!")
+    else:
+        print("Empate!")
+
+
