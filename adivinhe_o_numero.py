@@ -40,16 +40,16 @@ class AdivinheONumero():
         while self.tentativas > 0:
             try:
                 escolha = int(input("Escolha um número entre 1 e 100: "))
-
+                contador = 0
                 if escolha == self.numero_secreto:
-                    print(f"Parabéns! Você acertou o número secreto {self.numero_secreto} em {self.tentativas} tentativas.")
+                    print(f"Parabéns! Você acertou o número secreto {self.numero_secreto} em {self.tentativas - contador} tentativas.")
                     self.jogar_novamente()
                     break
                 elif escolha > self.numero_secreto:
                     print("numero muito alto")
                 else:
                     print("numero muito baixo")   
-
+                contador += 1
                 self.tentativas -= 1
                 print(f"Você ainda tem {self.tentativas} tentativas.\n")
 
