@@ -29,6 +29,9 @@ class AdivinheONumero():
     def jogar(self):
         print(self.__str__())
         nivel_jogo = input("Escolha um nível de jogo: [Fácil] [Médio] [Difícil] ").lower().strip()
+        if nivel_jogo not in ["fácil", "médio", "difícil"]:
+            print("Escolha um nível de jogo válido.")
+            self.jogar()
 
         if nivel_jogo == "fácil":
             self.tentativas = 20
@@ -40,6 +43,10 @@ class AdivinheONumero():
         while self.tentativas > 0:
             try:
                 escolha = int(input("Escolha um número entre 1 e 100: "))
+                if escolha < 1 or escolha > 100:
+                    print("Escolha um número entre 1 e 100.")
+                    continue
+                
                 contador = 0
                 if escolha == self.numero_secreto:
                     print(f"Parabéns! Você acertou o número secreto {self.numero_secreto} em {self.tentativas - contador} tentativas.")
