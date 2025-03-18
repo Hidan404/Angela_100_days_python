@@ -2,6 +2,15 @@ from menu import MENU
 from recursos import recursos
 
 
+historico = []
+
+def historico_compras(cafe):
+    historico.append(cafe)
+
+def exibir_historico():
+    print("Histórico de compras:")
+    for item in historico:
+        print(f" - {item}")   
 
 def relatrio():
     print(f"Agua {recursos['água']}ml")
@@ -47,6 +56,7 @@ def fazer_cafe(cafe, ingredientes):
     for item in ingredientes:
         recursos[item] -= ingredientes[item]
     print(f"Aqui está seu {cafe} ☕. Aproveite!")
+    historico_compras(cafe)
 
 
 def main():
@@ -58,12 +68,14 @@ def main():
             if escolha == "off":
                 condicao = False
             elif escolha == "relatorio":
-                relatrio()   
+                relatrio()  
+            elif escolha == "historico":
+                exibir_historico()   
             else:
                 cafe = MENU[escolha]
                 if verificar_recursos(cafe["ingredientes"]):
                     pagamento = processar_moeda()
-                    if verificar_pagamento(cafe["preço"], pagamento):
+                    if verificar_pagamento(cafe["Preço"], pagamento):
                         fazer_cafe(escolha, cafe["ingredientes"])  
         except KeyError:
             print("Desculpe, escolha inválida. Tente novamente.")
