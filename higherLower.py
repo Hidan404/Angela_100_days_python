@@ -1,3 +1,6 @@
+import random
+
+
 dados = [
     {
         "nome": "Instagram",
@@ -306,3 +309,59 @@ dados = [
         "pais": "Reino Unido"
     }
 ]
+
+
+def sortear_dois_paises():
+    random.seed()
+    paises = random.sample(dados, 2)
+    pais1, pais2 = paises
+    print(f"A - O país {pais1['pais']} rede social {pais1["nome"]} tem mais seguidores.")
+    print(f"B - O país {pais2['pais']} ede social {pais2["nome"]} tem menos seguidores.")
+    return pais1, pais2
+    
+
+
+
+def jogar_novamente():
+    jogar_novamente = input("Deseja jogar novamente [S] ou [N]: ").lower().strip()
+    if jogar_novamente == "s":
+        comparar_seguidores()
+    else:
+        print("Obrigado por jogar!")
+    
+def comparar_seguidores():
+    score = 0
+
+    while True:
+        pais1, pais2 = sortear_dois_paises()
+
+        escolha = input("responda qual tem mais seguidores [A] ou [B]: ").lower().strip()
+        if escolha not in ["a", "b"]:
+            print("Escolha uma opção válida.")
+            continue
+        
+        
+        if escolha == "a":
+            if pais1["seguidores"] > pais2["seguidores"]:
+                print("Você acertou!")
+                score += 1
+            else:
+                print(f"Você errou! seu score é {score}")
+                jogar_novamente()
+                break
+        else:
+            if pais2["seguidores"] > pais1["seguidores"]:
+                print("Você acertou!")
+                score += 1
+            else:
+                print(f"Você errou! seu score é {score}")
+                jogar_novamente()
+                break
+
+        print(f"Seu score é {score}")
+        
+
+
+comparar_seguidores()
+                
+    
