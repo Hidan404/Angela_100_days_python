@@ -1,7 +1,7 @@
 recursos = {
-    "água": 300,
+    "agua": 300,
     "leite": 200,
-    "café": 100,
+    "cafe": 100,
     "dinheiro": 0.0
 }
 

@@ -1,14 +1,15 @@
 MENU = {
     "espresso": {
-        "ingredientes": {"água": 50, "café": 18},
-        "custo": 1.5
+        "ingredientes": {"agua": 50, "cafe": 18},  # Sem acentos
+        "Preço": 1.5
     },
     "latte": {
-        "ingredientes": {"água": 200, "leite": 150, "café": 24},
-        "custo": 2.5
+        "ingredientes": {"agua": 200, "leite": 150, "cafe": 24},
+        "Preço": 2.5
     },
     "cappuccino": {
-        "ingredientes": {"água": 250, "leite": 100, "café": 24},
-        "custo": 3.0
+        "ingredientes": {"agua": 250, "leite": 100, "cafe": 24},
+        "Preço": 3.0
     }
 }
+
