@@ -1,7 +1,13 @@
-class User():
-    def __init__(self, seats):
-        self.seats = seats
+from question_model import Question
+from data import question_data
 
-user1 = User(10)
+question_bank = []
 
-print(user1.seats)
+for question in question_data:
+    text = question["text"]
+    answer = question["answer"]
+    new_question = Question(text, answer)
+    question_bank.append(new_question)
+
+
+print(question_bank)
