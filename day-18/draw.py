@@ -1,17 +1,22 @@
-from turtle import Turtle, Screen
+from turtle import Turtle as t, Screen as s
 
-tartaruga = Turtle()
+tartaruga = t()
 
 tartaruga.color("red")
-tartaruga.shape("circle")
-
-tartaruga.forward(100)
-tartaruga.right(45)
-tartaruga.forward(100)
+tartaruga.shape("square")
 
 
+def quadrado(n): 
+    for _ in range(n):
+        tartaruga.forward(100)
+        tartaruga.left(90)
 
 
-ecra = Screen()
+quadrado(4)
+
+
+
+
+ecra = s()
 ecra.exitonclick()
  
