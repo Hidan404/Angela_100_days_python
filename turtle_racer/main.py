@@ -27,6 +27,11 @@ for i in range(6):
     tartaruga.pendown()
     tartaruga.speed("normal")
 
+    tartaruga.penup()
+    tartaruga.goto(-380, posicoes[i] + 30)  # Ajuste a posição do nome acima da tartaruga
+    tartaruga.write(tartarugas_nomes[i], align="center", font=("Arial", 12, "normal"))
+    tartaruga.pendown()
+
     tartarugas[tartarugas_nomes[i]] = tartaruga
 print(tartarugas)    
 
