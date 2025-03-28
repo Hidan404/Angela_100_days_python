@@ -1,15 +1,14 @@
-from turtle import Turtle, Screen
-from raquete import raquete
+from turtle import Screen
+from raquete import Raquete 
 
 tela = Screen()
 tela.bgcolor("black")
-tela.setup(1200,920)
+tela.setup(1200, 920)
 tela.title("Pong")
+tela.tracer(0)
 
-
-
-raquete2 = raquete()
-raquete2.goto(350, 0)
+tela.update()
+raquete2 = Raquete(tela)
 
 
 
