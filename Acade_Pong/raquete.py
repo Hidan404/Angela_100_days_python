@@ -4,7 +4,7 @@ class Raquete(Turtle):
     def __init__(self, tela, posicao, tecla_baixo, tecla_cima):
         super().__init__()
         self.shape("square")
-        self.color("white")
+        self.color("#00FF00")
         self.penup()
         self.goto(posicao)
         self.shapesize(stretch_wid=5, stretch_len=1)
@@ -16,9 +16,9 @@ class Raquete(Turtle):
         self.tela.onkey(self.baixo, tecla_baixo)
 
     def cima(self):
-        nova_y = self.ycor() + 20
+        nova_y = self.ycor() + 30
         self.goto(self.xcor(), nova_y)
 
     def baixo(self):
-        nova_y = self.ycor() - 20
+        nova_y = self.ycor() - 30
         self.goto(self.xcor(), nova_y)
