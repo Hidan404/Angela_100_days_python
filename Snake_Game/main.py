@@ -52,7 +52,7 @@ def mover_cobra():
     colisao_cauda()
 
     screen.update()
-    turtle.ontimer(mover_cobra, int(velocidade * 1000))
+    turtle.ontimer(mover_cobra, int(velocidade * 1500))
 
 # Função para verificar colisão com a borda
 def verificar_colisao_borda():

@@ -21,4 +21,10 @@ class Player(Turtle):
         #self.goto(self.xcor(), new_y)
         self.forward(MOVE_DISTANCE)
 
+    def linha_chegada(self):
+        return self.ycor() > 280
+    
+    def linha_de_partida(self):
+        self.goto(STARTING_POSITION)
+
 
