@@ -1,5 +1,6 @@
 import turtle
 import random
+from Scoreboard import Score_board as sb
 
 # Configuração da tela
 screen = turtle.Screen()
@@ -7,6 +8,7 @@ screen.title("Jogo da Cobra")
 screen.bgcolor("black")
 screen.setup(width=600, height=600)
 screen.tracer(0)  # Desativa a atualização automática da tela para melhor desempenho
+placar = sb()
 
 # Criando a cobra
 cobra = []
@@ -57,6 +59,7 @@ def mover_cobra():
 # Função para verificar colisão com a borda
 def verificar_colisao_borda():
     if cobra[0].xcor() > 300 or cobra[0].xcor() < -300 or cobra[0].ycor() > 300 or cobra[0].ycor() < -300:
+        placar.salvar_historico_maior_txt()
         game_over()
 
 # Função para verificar se a cobra comeu a comida
@@ -64,6 +67,9 @@ def verificar_comida():
     if cobra[0].distance(comida) < 15:
         comida.goto(random.randint(-250, 250), random.randint(-250, 250))  # Reposiciona a comida
         adicionar_segmento()
+        placar.aumentar_pontuacao()
+        placar.mostrar_maior_score()
+        
 
 # Função para adicionar um segmento à cobra
 def adicionar_segmento():
@@ -76,6 +82,8 @@ def adicionar_segmento():
 def colisao_cauda():
     for segmento in cobra[1:]:
         if cobra[0].distance(segmento) < 10:
+            placar.salvar_historico_maior_txt()
+
             game_over()
 
 # Função de game over
