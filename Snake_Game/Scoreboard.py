@@ -7,7 +7,7 @@ class Score_board:
         self.escrita.penup()
         self.escrita.hideturtle()
         self.escrita.color("white")
-        self.escrita.goto(-230, 260)
+        self.escrita.goto(-200, 200)
         self.high_score = 0
         self.atualizar_pontuacao()
         self.mostrar_maior_score()
@@ -15,13 +15,14 @@ class Score_board:
 
     def atualizar_pontuacao(self):
         self.escrita.clear()
-        self.escrita.write(f"Pontuação: {self.score} ", align="center", font=("Arial", 16, "normal"))
+        self.escrita.write(f"Pontuação: {self.score}\nMaior Pontuação: {self.mostrar_maior_score()} ", align="center", font=("Arial", 16, "normal"))
 
     def mostrar_maior_score(self):
         with open("Snake_Game/score_historico.txt", "r") as file:
             self.high_score = int(file.read().strip())
-            self.escrita.goto(-50, 260)
-            self.escrita.write(f"Maior Pontuação: {self.high_score}", align="center", font=("Arial", 16, "normal"))
+            self.escrita.goto(-180, 240)
+            #self.escrita.write(f"{self.high_score}", align="center", font=("Arial", 16, "normal"))
+            return self.high_score
 
     def aumentar_pontuacao(self):
         self.score += 1

@@ -68,7 +68,7 @@ def verificar_comida():
         comida.goto(random.randint(-250, 250), random.randint(-250, 250))  # Reposiciona a comida
         adicionar_segmento()
         placar.aumentar_pontuacao()
-        placar.mostrar_maior_score()
+        
         
 
 # Função para adicionar um segmento à cobra
