@@ -30,7 +30,7 @@ class MailMerge:
         for nome in self.nomes:
             conteudo = self.ler_letra()
             conteudo = conteudo.replace("[name]", nome)
-            with open(f"{self.diretorio}/{nome}.txt", "w") as file:
+            with open(f"{self.diretorio}/letter_for_{nome}.txt", "w") as file:
                 file.write(conteudo)
 
     def main(self):
@@ -42,3 +42,6 @@ class MailMerge:
 if __name__ == "__main__":
     mail_merge = MailMerge()
     mail_merge.main() 
+
+
+    
