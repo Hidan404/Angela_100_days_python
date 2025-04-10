@@ -58,7 +58,7 @@ def jogo():
         # Verifica colisão com a cauda
         if snake.colisao_cauda():
             placar.salvar_historico_maior_txt()
-            e
+            
 
 jogo()
 
