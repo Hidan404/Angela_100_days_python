@@ -22,6 +22,9 @@ while len(estados_acertados) < 50:
     estado = estado.title()
     if estado == "Exit":
         estados_acertados = estados_acertados
+        salvar_estados_restantes = [estado for estado in estados_list if estado not in estados_acertados]
+        estados_restantes = pd.DataFrame(salvar_estados_restantes)
+        estados_restantes.to_csv("day-25-us-states-game-start/estados_restantes.csv", index=False)
         break
     if estado in estados_list and estado not in estados_acertados:
         estados_acertados.append(estado)
@@ -38,13 +41,7 @@ while len(estados_acertados) < 50:
     else:
         messagebox.showinfo("U.S. States Game", "Esse estado não existe.")    
 
-    if estados_list not in estados_acertados:
-        salvar_estados_restantes = [estado for estado in estados_list if estado not in estados_acertados]
-        estados_restantes = pd.DataFrame(salvar_estados_restantes)
-        estados_restantes.to_csv("day-25-us-states-game-start/estados_restantes.csv", index=False)
-    else:
-        messagebox.showinfo("U.S. States Game", "Parabéns! Você acertou todos os estados.")
-        break
+    
 
     
     
