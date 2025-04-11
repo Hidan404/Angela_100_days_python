@@ -15,10 +15,10 @@ estados_list = estados.state.to_list()
 estados_acertados = []
 
 while len(estados_acertados) < 50:
-    perguntar_estado = messagebox.askquestion("U.S. States Game", "Do you want to play the U.S. States Game?")
+    perguntar_estado = messagebox.askquestion("U.S. Jogo dos Estados", "Você quer jogar o jogo dos Estados Unidos?")
     if perguntar_estado == "no":
         break
-    estado = tela.textinput(title=f"{len(estados_acertados)}/50 States Correct", prompt="qual o nome desse estado?").strip()
+    estado = tela.textinput(title=f"{len(estados_acertados)}/50 Estados Corretos", prompt="qual o nome desse estado?").strip()
     estado = estado.title()
     if estado == "Exit":
         estados_acertados = estados_acertados
