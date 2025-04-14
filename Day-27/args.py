@@ -33,4 +33,4 @@ def alunos(**kwargs):
     dicionario = {k: "A+" if v > 8 else "B-" for k, v in kwargs.items()}
     return dicionario
 
-print(alunos(maria=9.5, joao=8.0, ana=10.0))  # Saída: Maria: 9.5, João: 8.0, Ana: 10.0
+print(alunos(maria=9.5, joao=8.0, ana=10.0))  
