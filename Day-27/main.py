@@ -7,7 +7,7 @@ root.title("Contador de Palavras")
 root.minsize(300, 200)
 
 rotulo = tk.Label(root, text="Digite o texto:", font=("Arial", 22))
-rotulo.pack(side=tk.BOTTOM)
+rotulo.pack(side=tk.TOP, pady=10)
 entrada = tk.Text(root, height=10, width=40)
 entrada.pack()
 
