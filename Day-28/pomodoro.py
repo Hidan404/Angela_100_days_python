@@ -6,7 +6,7 @@ import simpleaudio as sa
 def main(page: ft.Page):
     page.title = "Pomodoro"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER  # Alterado para CrossAxisAlignment
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER  
     #page.window_width = 400
     #page.window_height = 600
     page.window_fullscreen = True
@@ -20,7 +20,7 @@ def main(page: ft.Page):
         value="Pomodoro",
         size=50,
         color=ft.colors.BLUE_900,
-        text_align=ft.TextAlign.CENTER,  # Alinhamento interno do texto
+        text_align=ft.TextAlign.CENTER,  
         font_family="Arial"
     )
     page.add(subtitulo)
@@ -29,7 +29,7 @@ def main(page: ft.Page):
     timer_label = ft.Text(
         value="00:00", 
         size=30,
-        text_align=ft.TextAlign.CENTER  # Alinhamento interno do texto
+        text_align=ft.TextAlign.CENTER  
     )
     def pausa_5_minutos():
         nonlocal execucao, segundos
@@ -79,7 +79,7 @@ def main(page: ft.Page):
       
 
        
-    # Botão com margem
+    
     botao = ft.ElevatedButton(
         text="Iniciar",
         on_click=lambda e: timer_started(),
