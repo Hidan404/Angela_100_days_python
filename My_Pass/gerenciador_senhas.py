@@ -63,6 +63,8 @@ def main(page: ft.Page):
         dados_descriptografados = unpad(cipher.decrypt(dados_criptografados), AES.block_size)
         with open("My_Pass/senhas.csv", "wb") as f:
             f.write(dados_descriptografados)
+        os.remove("My_Pass/senhas_criptografadas.bin")
+        os.remove("My_Pass/chave.key")
         msg_texto.value = "Arquivo descriptografado com sucesso!"
         page.add(msg_texto)
         page.update()
@@ -77,6 +79,8 @@ def main(page: ft.Page):
         if senha and site:
             page.add(ft.Text(f"Senha para {site}:" + f"\t Senha: {senha}"))
             salvar_senha_csv(senha, site)
+            lista_senhas.controls.append(ft.Text(f"Senha para {site}:" + f"\t Senha: {senha}"))
+            lista_senhas.update()
             campo_senha.value = ""
             campo_site.value = ""
             campo_senha.focus()
@@ -88,9 +92,38 @@ def main(page: ft.Page):
         msg_texto.value = ""
         page.update()
 
-    subtitulo = ft.Column([
-        ft.Text("Gerenciador de Senhas", size=30, weight=ft.FontWeight.BOLD, color=ft.colors.RED_900),
-    ])
+    lista_senhas = ft.Column(
+        spacing=5,
+        scroll="auto",
+        width=400,
+        height=200,
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER
+    )
+
+
+    try:
+        with open("My_Pass/senhas.csv", "r") as f:
+            for linha in f:
+                site, senha = linha.strip().split(",")
+                lista_senhas.controls.append(
+                    ft.Text(f"🔒 {site.strip()}: {senha.strip()}", selectable=True)
+                )
+    except Exception as e:
+        print(f"Arquivo não encontrado ou vazio. Erro: {e}")
+
+
+    subtitulo = ft.ListView(
+        controls=[
+            ft.Text("Gerenciador de Senhas", size=30, weight=ft.FontWeight.BOLD, color=ft.colors.RED_900),
+            
+        ],
+        width=400,
+        height=100,
+        spacing=10,
+        padding=10,
+        auto_scroll=False
+    )
+
 
     botoes1 = ft.Row([
         botao_gerar,
@@ -113,12 +146,13 @@ def main(page: ft.Page):
         
     )
     page.add(subtitulo)
-    page.add(ft.Container(height=20))
+    page.add(ft.Container(height=10))
     page.add(layout)
     page.add(ft.Container(height=20))
     page.add(botoes1)
     page.add(ft.Container(height=20))
     page.add(botoes2)
+    page.add(lista_senhas)
     page.update()
 
 
