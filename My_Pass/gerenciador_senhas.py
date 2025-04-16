@@ -88,6 +88,10 @@ def main(page: ft.Page):
         msg_texto.value = ""
         page.update()
 
+    subtitulo = ft.Column([
+        ft.Text("Gerenciador de Senhas", size=30, weight=ft.FontWeight.BOLD, color=ft.colors.RED_900),
+    ])
+
     botoes1 = ft.Row([
         botao_gerar,
         ft.ElevatedButton(text="Adicionar Senha", on_click=adicionar_senha)
@@ -96,7 +100,6 @@ def main(page: ft.Page):
         spacing=20
     )    
     layout = ft.Column([
-        ft.Text("Gerenciador de Senhas", size=30, weight=ft.FontWeight.BOLD),
         campo_site,
         campo_senha,
     ])
@@ -109,8 +112,12 @@ def main(page: ft.Page):
         spacing=20
         
     )
+    page.add(subtitulo)
+    page.add(ft.Container(height=20))
     page.add(layout)
+    page.add(ft.Container(height=20))
     page.add(botoes1)
+    page.add(ft.Container(height=20))
     page.add(botoes2)
     page.update()
 
