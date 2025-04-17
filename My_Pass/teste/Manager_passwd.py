@@ -149,6 +149,34 @@ def main(page: ft.Page):
     except Exception as e:
         print(f"Arquivo não encontrado ou inválido. Erro: {e}")
 
+    def buscar_site_senha(e):
+        site = consultar_senha.controls[0].value
+        if site:
+            with open(CAMINHO_JSON, "r") as f:
+                dados = json.load(f)
+                for item in dados:
+                    if item.get("site") == site:
+                        msg_texto.value = f"Senha para {site}: {item.get('senha')}"
+                        break
+                else:
+                    msg_texto.value = "Site não encontrado."
+            page.add(msg_texto)
+            page.update()
+            page.run_task(limpar_msg_apos_delay)
+        else:
+            msg_texto.value = "Digite o nome do site."
+            page.add(msg_texto)
+            page.update()
+            page.run_task(limpar_msg_apos_delay)
+
+    consultar_senha = ft.Row([
+        ft.TextField(label="Buscar Senha", width=300, on_submit=buscar_site_senha),
+        ft.ElevatedButton(text="Buscar", on_click=buscar_site_senha)
+    ],
+        alignment=ft.MainAxisAlignment.CENTER,
+        spacing=20
+    )            
+
     subtitulo = ft.ListView(
         controls=[
             ft.Text("Gerenciador de Senhas", size=30, weight=ft.FontWeight.BOLD, color=ft.colors.RED_900),
@@ -189,6 +217,7 @@ def main(page: ft.Page):
     page.add(ft.Container(height=20))
     page.add(botoes2)
     page.add(lista_senhas)
+    page.add(consultar_senha)
     page.update()
 
 
