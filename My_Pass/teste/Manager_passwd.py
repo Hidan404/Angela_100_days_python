@@ -216,8 +216,9 @@ def main(page: ft.Page):
     page.add(botoes1)
     page.add(ft.Container(height=20))
     page.add(botoes2)
-    page.add(lista_senhas)
     page.add(consultar_senha)
+    page.add(lista_senhas)
+    
     page.update()
 
 
