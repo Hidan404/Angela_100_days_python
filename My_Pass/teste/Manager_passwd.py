@@ -173,8 +173,7 @@ def main(page: ft.Page):
         ft.TextField(label="Buscar Senha", width=300, on_submit=buscar_site_senha),
         ft.ElevatedButton(text="Buscar", on_click=buscar_site_senha)
     ],
-        alignment=ft.MainAxisAlignment.CENTER,
-        spacing=20
+        alignment=ft.MainAxisAlignment.CENTER
     )            
 
     subtitulo = ft.ListView(
@@ -182,7 +181,7 @@ def main(page: ft.Page):
             ft.Text("Gerenciador de Senhas", size=30, weight=ft.FontWeight.BOLD, color=ft.colors.RED_900),
         ],
         width=400,
-        height=100,
+        height=50,
         spacing=10,
         padding=10,
         auto_scroll=False
