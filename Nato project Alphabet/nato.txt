@@ -1,5 +1,2 @@
-Mike
 Echo
-Tango
-Alfa
-Lima
+Echo
