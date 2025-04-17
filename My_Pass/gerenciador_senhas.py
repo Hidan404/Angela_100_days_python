@@ -5,6 +5,7 @@ from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 import os
 import asyncio
+import json
 
 
 
@@ -31,21 +32,40 @@ def main(page: ft.Page):
         campo_senha.update()
         campo_site.update()
 
-    def salvar_senha_csv(senha, site):
-        if senha and site:
-            with open("My_Pass/senhas.csv", "a") as f:
-                f.write(f"{site}, {senha}\n")
+    def salvar_senha_json(senha, site):
+        try:
+            dados = {}
+
+            # Se o arquivo já existir, carrega os dados
+            if os.path.exists("My_Pass/senhas.json"):
+                with open("My_Pass/senhas.json", "r") as f:
+                    try:
+                        dados = json.load(f)
+                    except json.JSONDecodeError:
+                        dados = {}
+
+            # Adiciona ou atualiza a senha para o site
+            dados[site] = senha
+
+            # Salva os dados atualizados
+            with open("My_Pass/senhas.json", "w") as f:
+                json.dump(dados, f, indent=4)
+
+        except Exception as e:
+            print(f"Erro ao salvar senha: {e}")
+
+
 
                
     def criptograr_arquivo_csv(e):
         chave = get_random_bytes(16)
         cipher = AES.new(chave, AES.MODE_CBC)
-        with open("My_Pass/senhas.csv", "rb") as f:
+        with open("My_Pass/senhas.json", "rb") as f:
             dados = f.read()
             dados_criptografados = cipher.encrypt(pad(dados, AES.block_size))
         with open("My_Pass/senhas_criptografadas.bin", "wb") as f:
             f.write(cipher.iv + dados_criptografados)
-            os.remove("My_Pass/senhas.csv")
+            os.remove("My_Pass/senhas.json")
         with open("My_Pass/chave.key", "wb") as f:  
             f.write(chave)
         msg_texto.value = "Arquivo criptografado com sucesso!"
@@ -61,7 +81,7 @@ def main(page: ft.Page):
             dados_criptografados = f.read()
         cipher = AES.new(chave, AES.MODE_CBC, iv)
         dados_descriptografados = unpad(cipher.decrypt(dados_criptografados), AES.block_size)
-        with open("My_Pass/senhas.csv", "wb") as f:
+        with open("My_Pass/senhas.json", "wb") as f:
             f.write(dados_descriptografados)
         os.remove("My_Pass/senhas_criptografadas.bin")
         os.remove("My_Pass/chave.key")
@@ -78,7 +98,7 @@ def main(page: ft.Page):
 
         if senha and site:
             page.add(ft.Text(f"Senha para {site}:" + f"\t Senha: {senha}"))
-            salvar_senha_csv(senha, site)
+            salvar_senha_json(senha, site)
             lista_senhas.controls.append(ft.Text(f"Senha para {site}:" + f"\t Senha: {senha}"))
             lista_senhas.update()
             campo_senha.value = ""
@@ -102,14 +122,15 @@ def main(page: ft.Page):
 
 
     try:
-        with open("My_Pass/senhas.csv", "r") as f:
-            for linha in f:
-                site, senha = linha.strip().split(",")
-                lista_senhas.controls.append(
-                    ft.Text(f"🔒 {site.strip()}: {senha.strip()}", selectable=True)
-                )
+        if os.path.exists("My_Pass/senhas.json"):
+            with open("My_Pass/senhas.json", "r") as f:
+                dados = json.load(f)
+                for site, senha in dados.items():
+                    lista_senhas.controls.append(
+                        ft.Text(f"🔒 {site.strip()}: {senha.strip()}", selectable=True)
+                    )
     except Exception as e:
-        print(f"Arquivo não encontrado ou vazio. Erro: {e}")
+        print(f"Erro ao carregar senhas: {e}")
 
 
     subtitulo = ft.ListView(
