@@ -1,11 +1,14 @@
 import flet as ft
+import json
 
 def main(page: ft.Page):
     page.title = "FlashCard"
    
-
-    palavras_pt = ["cachorro", "gato", "pássaro", "peixe", "cavalo"]
-    palavras_en = ["dog", "cat", "bird", "fish", "horse"]
+    with open("flashcard capstone app project/palavras_1500.json", "r") as file:
+        palavras = json.load(file)
+        palavras_pt = [palavra["pt"] for palavra in palavras]
+        palavras_en = [palavra["en"] for palavra in palavras]
+   
 
     indice = 0
     mostrar_traducao = False
@@ -50,17 +53,16 @@ def main(page: ft.Page):
             ),
             margin=ft.margin.only(top=120),
     )
-    container_subtitulo = ft.Container(
-        content=subtitulo,
-        alignment=ft.alignment.center,
-        padding=10,
-        margin=ft.margin.only(top=50),
+    
       
-    )
+    
     page.add(
         ft.Column(
             [    
-                container_subtitulo,
+                subtitulo,
+                ft.Container(height=10),
+                subtitulo2,
+                ft.Container(height=10),
                 containercard,
                 ft.Row(
                     [
@@ -69,7 +71,7 @@ def main(page: ft.Page):
                     ],
                     alignment=ft.MainAxisAlignment.CENTER
                 ),
-                ft.IconButton(ft.icons.INFO, on_click=mostrar_traducao_card),
+                ft.IconButton(ft.icons.LANGUAGE, on_click=mostrar_traducao_card),
             ],
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER
