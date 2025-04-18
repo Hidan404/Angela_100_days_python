@@ -11,7 +11,9 @@ def main(page: ft.Page):
     mostrar_traducao = False
 
     texto_card = ft.Text(value=palavras_pt[indice], size=30, text_align=ft.TextAlign.CENTER, color=ft.colors.BLACK, selectable=True)
-
+    subtitulo = ft.Text("FlashCard", size=30, weight=ft.FontWeight.BOLD, color=ft.colors.WHITE, selectable=True)
+    subtitulo2 = ft.Text("Aprenda palavras em inglês", size=20, weight=ft.FontWeight.BOLD, color=ft.colors.WHITE, selectable=True)
+    
     def atualizar_card():
         if mostrar_traducao:
             texto_card.value = palavras_en[indice]
@@ -45,12 +47,20 @@ def main(page: ft.Page):
                 color=ft.colors.GREY_400,
                 offset=ft.Offset(2, 2),
                 blur_style=ft.ShadowBlurStyle.NORMAL
-            )
+            ),
+            margin=ft.margin.only(top=120),
     )
-
+    container_subtitulo = ft.Container(
+        content=subtitulo,
+        alignment=ft.alignment.center,
+        padding=10,
+        margin=ft.margin.only(top=50),
+      
+    )
     page.add(
         ft.Column(
-            [
+            [    
+                container_subtitulo,
                 containercard,
                 ft.Row(
                     [
