@@ -1,10 +1,19 @@
 from question_model import Question
-from data import question_data
+from data import questoes_interativo
 from quiz_brain import QuizBrain
+import json
 
 question_bank = []
 
-for question in question_data:
+def abrir_arquivo():
+    with open("quiz_project/dados.json", "r") as f:
+        dados = json.load(f)
+        return dados
+
+dadso_arquivo = abrir_arquivo()
+
+
+for question in dadso_arquivo["results"]:
     text = question["question"]
     answer = question["correct_answer"]
     new_question = Question(text, answer)
