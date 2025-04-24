@@ -1,48 +1,94 @@
 import requests
 import json
+import datetime
+import os
 
 chave_api = "5efdf341fa6100bd24e45542c7551efb"
 #url = f"https://api.openweathermap.org/data/2.5/weather?q=London,UK&appid={chave_api}&lang=pt_br&units=metric"
 
 def obter_dados():
-    latidude = float(input("digite uma latitude: "))
-    longitude = float(input("digite uma longitude: "))
+    cidade = input("Digite uma cidade: ")
     linguagem = "pt_br"
+    pais = "BR"
+    return  f"{cidade},{pais}", linguagem
 
-    return latidude, longitude, linguagem
+
+
+def emoji_clima(descricao):
+    descricao = descricao.lower()
+    if "chuva" in descricao:
+        return "🌧️"
+    elif "nuvem" in descricao:
+        return "☁️"
+    elif "céu limpo" in descricao or "limpo" in descricao:
+        return "☀️"
+    elif "neve" in descricao:
+        return "❄️"
+    elif "tempestade" in descricao:
+        return "⛈️"
+    elif "névoa" in descricao or "neblina" in descricao:
+        return "🌫️"
+    else:
+        return "🌤️"
+    
+
 
 
 def clima():
-    latitude, longitude, linguagem = obter_dados()
+    cidade, linguagem = obter_dados()
 
     link = "https://api.openweathermap.org/data/2.5/forecast"
 
 
 
     parametros = {
-        "lat": latitude,
-        "lon": longitude,
+        "q": cidade,
         "appid": chave_api,
-        "lang": linguagem
+        "lang": linguagem,
+        "units": "metric"
     }
     resposta = requests.get(link, params=parametros)
 
     if resposta.status_code == 200:
-        dados = resposta.json() 
-        with open("Alerta_chuva/dados.json","w")as f:
-            f.write(json.dumps(dados, indent=4, ensure_ascii=False))
-            
-        with open("Alerta_chuva/dados.json", "r") as f:
-            data = f.read()
+        dados = resposta.json()
+        cidade_nome = dados["city"]["name"]
 
-        print("\n📍 Clima em:", data['city']["name"])
-        print("🌡️ Temperatura:", data["main"]["temp"], "°C")
-        print("🤔 Sensação térmica:", data["main"]["feels_like"], "°C")
-        print("💧 Umidade:", data["main"]["humidity"], "%")
-        print("🌬️ Velocidade do vento:", data["wind"]["speed"], "m/s")
-        print("🌤️ Descrição:", data["weather"][0]["description"].capitalize())
+        hoje = datetime.datetime.now()
+        data_amanha = (hoje + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        horarios_desejados = ["09:00:00", "15:00:00", "21:00:00"]
+
+        resumo_notificacao = f"🌦️ Clima de Amanhã em {cidade_nome}:\n"
+
+        print("\n📍 Cidade:", cidade_nome)
+        print("🗓️ Previsão para:", data_amanha)
+        print("-" * 40)
+
+        for item in dados["list"]:
+            data_hora = item["dt_txt"]
+            data, hora = data_hora.split()
+
+            if data == data_amanha and hora in horarios_desejados:
+                descricao = item["weather"][0]["description"].capitalize()
+                icone = emoji_clima(descricao)
+                chuva = item.get("pop", 0) * 100
+
+                print(f"🕒 {data_hora}")
+                print(f"  {icone} {descricao}")
+                print(f"  🌡️ Temp: {item['main']['temp']}°C")
+                print(f"  🤔 Sensação: {item['main']['feels_like']}°C")
+                print(f"  💧 Umidade: {item['main']['humidity']}%")
+                print(f"  🌬️ Vento: {item['wind']['speed']} m/s")
+                if chuva > 0:
+                    print(f"  ☔ Chance de chuva: {chuva:.0f}%")
+                print("-" * 40)
+
+                resumo_notificacao += f"{hora[:2]}h: {icone} {descricao}, {item['main']['temp']}°C\n"
+        os.system(f'notify-send "Clima Amanhã - {cidade_nome}" "{resumo_notificacao}"')
+
     else:
         print(f"Erro ao acessar API: {resposta.status_code}")
+
+
 
 if __name__ == "__main__":
     clima()
