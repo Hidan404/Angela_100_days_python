@@ -1,5 +1,4 @@
-
-
+import html
 
 class QuizBrain():
 
@@ -11,7 +10,8 @@ class QuizBrain():
     def next_question(self):
         questao_atual = self.question_list[self.question_number]
         self.question_number+= 1
-        pergunta = input(f"Q - {self.question_number}: {questao_atual.text} (True/False): ")
+        unescape_questao = html.unescape(questao_atual.text)
+        pergunta = input(f"Q - {self.question_number}: {unescape_questao} (True/False): ")
         self.check_answer(pergunta,questao_atual.answer)
     def still_has_questions(self):
         return self.question_number < len(self.question_list)  
