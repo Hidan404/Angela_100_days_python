@@ -1,4 +1,5 @@
 import requests
+import json
 
 chave_api = "5efdf341fa6100bd24e45542c7551efb"
 #url = f"https://api.openweathermap.org/data/2.5/weather?q=London,UK&appid={chave_api}&lang=pt_br&units=metric"
@@ -28,13 +29,18 @@ def clima():
 
     if resposta.status_code == 200:
         dados = resposta.json() 
-         # Já vem como dicionário
-        print("\n📍 Clima em:", dados['city']["name"])
-        print("🌡️ Temperatura:", dados["main"]["temp"], "°C")
-        print("🤔 Sensação térmica:", dados["main"]["feels_like"], "°C")
-        print("💧 Umidade:", dados["main"]["humidity"], "%")
-        print("🌬️ Velocidade do vento:", dados["wind"]["speed"], "m/s")
-        print("🌤️ Descrição:", dados["weather"][0]["description"].capitalize())
+        with open("Alerta_chuva/dados.json","w")as f:
+            f.write(json.dumps(dados, indent=4, ensure_ascii=False))
+            
+        with open("Alerta_chuva/dados.json", "r") as f:
+            data = f.read()
+
+        print("\n📍 Clima em:", data['city']["name"])
+        print("🌡️ Temperatura:", data["main"]["temp"], "°C")
+        print("🤔 Sensação térmica:", data["main"]["feels_like"], "°C")
+        print("💧 Umidade:", data["main"]["humidity"], "%")
+        print("🌬️ Velocidade do vento:", data["wind"]["speed"], "m/s")
+        print("🌤️ Descrição:", data["weather"][0]["description"].capitalize())
     else:
         print(f"Erro ao acessar API: {resposta.status_code}")
 
