@@ -31,8 +31,25 @@ def emoji_clima(descricao):
     else:
         return "🌤️"
     
+def enviar_mensagem_telegram(mensagem):
+    TOKEN = "7949436359:AAGMZkjSqdQFTzXbYH--WJP1YrZVFMyvs90"
+    chat_id = "1364356086"
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
+    payload = {
+        "chat_id": chat_id,
+        "text": mensagem,
+        "parse_mode": "HTML"
+    }
 
+    try:
+        resposta = requests.post(url= url, data= payload)
+        if resposta.status_code != 200:
+            raise resposta.raise_for_status()
+        else:
+            print("Mensagem enviada com sucesso!")
+    except requests.exceptions.RequestException as e:
+        print(f"Erro ao enviar mensagem no Telegram: {e}")
 
 def clima():
     cidade, linguagem = obter_dados()
@@ -84,6 +101,8 @@ def clima():
 
                 resumo_notificacao += f"{hora[:2]}h: {icone} {descricao}, {item['main']['temp']}°C\n"
         os.system(f'notify-send "Clima Amanhã - {cidade_nome}" "{resumo_notificacao}"')
+
+        enviar_mensagem_telegram(resumo_notificacao)
 
     else:
         print(f"Erro ao acessar API: {resposta.status_code}")
