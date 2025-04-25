@@ -1,5 +1,7 @@
 from salvar_dados_json import salvar_json
 import datetime
+from icones_descricao import Icone
+from enviar_msg_telegram import msg_telegram
 import os
 
 
@@ -26,23 +28,26 @@ def main():
         data_hora = item["dt_txt"]
         data, hora = data_hora.split()
 
-            if data == data_amanha and hora in horarios_desejados:
-                descricao = item["weather"][0]["description"].capitalize()
-                icone = emoji_clima(descricao)
-                chuva = item.get("pop", 0) * 100
+        if data == data_amanha and hora in horarios_desejados:
+            descricao = item["weather"][0]["description"].capitalize()
+            icone = Icone(descricao)
+            chuva = item.get("pop", 0) * 100
 
-                print(f"🕒 {data_hora}")
-                print(f"  {icone} {descricao}")
-                print(f"  🌡️ Temp: {item['main']['temp']}°C")
-                print(f"  🤔 Sensação: {item['main']['feels_like']}°C")
-                print(f"  💧 Umidade: {item['main']['humidity']}%")
-                print(f"  🌬️ Vento: {item['wind']['speed']} m/s")
-                if chuva > 0:
-                    print(f"  ☔ Chance de chuva: {chuva:.0f}%")
+            print(f"🕒 {data_hora}")
+            print(f"  {icone.emoji_clima()} {descricao}")
+            print(f"  🌡️ Temp: {item['main']['temp']}°C")
+            print(f"  🤔 Sensação: {item['main']['feels_like']}°C")
+            print(f"  💧 Umidade: {item['main']['humidity']}%")
+            print(f"  🌬️ Vento: {item['wind']['speed']} m/s")
+            if chuva > 0:
+                print(f"  ☔ Chance de chuva: {chuva:.0f}%")
                 print("-" * 40)
 
-                resumo_notificacao += f"{hora[:2]}h: {icone} {descricao}, {item['main']['temp']}°C\n"
-        os.system(f'notify-send "Clima Amanhã - {cidade_nome}" "{resumo_notificacao}"')
+                resumo_notificacao += f"{hora[:2]}h: {icone.emoji_clima()} {descricao}, {item['main']['temp']}°C\n"
+    os.system(f'notify-send "Clima Amanhã - {cidade_nome}" "{resumo_notificacao}"')
+    
+    msg_env_telegram = msg_telegram()
+    print(msg_env_telegram.enviar_mensagem_telegram(resumo_notificacao))
 
 if __name__ == "__main__":
     main()  
