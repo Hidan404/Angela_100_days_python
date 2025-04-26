@@ -1,82 +1,79 @@
 import requests
 import json
 
-STOCK_NAME = "TSLA"
-COMPANY_NAME = "Tesla Inc"
+NOME_ACAO = "TSLA"
+NOME_EMPRESA = "Tesla Inc"
 
-STOCK_ENDPOINT = "https://www.alphavantage.co/query"
-NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
+ENDPOINT_ACAO = "https://www.alphavantage.co/query"
+ENDPOINT_NOTICIAS = "https://newsapi.org/v2/everything"
 
-STOCK_API = "3HC28N54DTWIPXDF"
-NEWS_API_KEY ="71c5258c2dc547c196ebc0e51815fd7e"
+API_ACAO = "3HC28N54DTWIPXDF"
+CHAVE_API_NOTICIAS = "71c5258c2dc547c196ebc0e51815fd7e"
 
-    ## STEP 1: Use https://www.alphavantage.co/documentation/#daily
-# When stock price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
+## ETAPA 1: Use https://www.alphavantage.co/documentation/#daily
+# Quando o preço da ação aumenta/diminui 5% entre ontem e anteontem, então print("Obter Notícias").
 
-#TODO 1. - Get yesterday's closing stock price. Hint: You can perform list comprehensions on Python dictionaries. e.g. [new_value for (key, value) in dictionary.items()]
-stock_params = {
+# TODO 1. - Obtenha o preço de fechamento da ação de ontem. Dica: Você pode realizar compreensões de lista em dicionários Python. Exemplo: [novo_valor for (chave, valor) in dicionario.items()]
+parametros_acao = {
     "function": "TIME_SERIES_DAILY",
-    "symbol": STOCK_NAME,
-    "apikey": STOCK_API,
+    "symbol": NOME_ACAO,
+    "apikey": API_ACAO,
 }
-resposta = requests.get(STOCK_ENDPOINT,params=stock_params)
+resposta = requests.get(ENDPOINT_ACAO, params=parametros_acao)
 dados = resposta.json()["Time Series (Daily)"]
-dados_list = [value for (key, value) in dados.items()]
-yesterday_dados = dados_list[0]
-yesterday_closing_price = yesterday_dados["4. close"]
+lista_dados = [valor for (chave, valor) in dados.items()]
+dados_ontem = lista_dados[0]
+preco_fechamento_ontem = dados_ontem["4. close"]
 
-print(yesterday_closing_price)
-#TODO 2. - Get the day before yesterday's closing stock price
-day_before_yesterday_data = dados_list[1]
-day_before_yesterday_closing_price = day_before_yesterday_data["4. close"]
-print(day_before_yesterday_closing_price)
-#TODO 3. - Find the positive difference between 1 and 2. e.g. 40 - 20 = -20, but the positive difference is 20. Hint: https://www.w3schools.com/python/ref_func_abs.asp
-diferenca = round(float(yesterday_closing_price) - float(day_before_yesterday_closing_price), 2)
+print(preco_fechamento_ontem)
+# TODO 2. - Obtenha o preço de fechamento da ação de anteontem.
+dados_anteontem = lista_dados[1]
+preco_fechamento_anteontem = dados_anteontem["4. close"]
+print(preco_fechamento_anteontem)
+# TODO 3. - Encontre a diferença positiva entre 1 e 2. Exemplo: 40 - 20 = -20, mas a diferença positiva é 20. Dica: https://www.w3schools.com/python/ref_func_abs.asp
+diferenca = round(float(preco_fechamento_ontem) - float(preco_fechamento_anteontem), 2)
 print(diferenca)
-#TODO 4. - Work out the percentage difference in price between closing price yesterday and closing price the day before yesterday.
-diferenca_percent = (float(diferenca) / float(yesterday_closing_price)) * 100
-print(diferenca_percent)
-#TODO 5. - If TODO4 percentage is greater than 5 then print("Get News").
-if diferenca_percent > 5:
-    print("Get News")
-    ## STEP 2: https://newsapi.org/ 
-    # Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME. 
+# TODO 4. - Calcule a diferença percentual no preço entre o fechamento de ontem e o fechamento de anteontem.
+diferenca_percentual = (float(diferenca) / float(preco_fechamento_ontem)) * 100
+print(diferenca_percentual)
+# TODO 5. - Se a porcentagem do TODO4 for maior que 5, então print("Obter Notícias").
+if diferenca_percentual > 5:
+    print("Obter Notícias")
+    ## ETAPA 2: https://newsapi.org/ 
+    # Em vez de imprimir ("Obter Notícias"), realmente obtenha as 3 primeiras notícias para o NOME_EMPRESA.
 
-#TODO 6. - Instead of printing ("Get News"), use the News API to get articles related to the COMPANY_NAME.
-if diferenca_percent > 1:
-    novos_parametros = {
-        "apikey": NEWS_API_KEY,
-        "qIntitle": COMPANY_NAME,
+# TODO 6. - Em vez de imprimir ("Obter Notícias"), use a API de Notícias para obter artigos relacionados ao NOME_EMPRESA.
+if diferenca_percentual > 1:
+    parametros_novos = {
+        "apikey": CHAVE_API_NOTICIAS,
+        "qIntitle": NOME_EMPRESA,
     }
-    nova_resposta = requests.get(NEWS_ENDPOINT, novos_parametros)
+    nova_resposta = requests.get(ENDPOINT_NOTICIAS, parametros_novos)
     with open("stock-news-normal-start/news_data.json", "w") as f:
         f.write(json.dumps(nova_resposta.json(), ensure_ascii=False, indent=4))
 
     with open("stock-news-normal-start/news_data.json", "r") as t:
-        news_data = json.load(t)["articles"]
-        tres_artigos = news_data[:3]
+        dados_noticias = json.load(t)["articles"]
+        tres_artigos = dados_noticias[:3]
         print(tres_artigos)
         
-#TODO 7. - Use Python slice operator to create a list that contains the first 3 articles. Hint: https://stackoverflow.com/questions/509211/understanding-slice-notation
+# TODO 7. - Use o operador de fatia do Python para criar uma lista que contenha os 3 primeiros artigos. Dica: https://stackoverflow.com/questions/509211/understanding-slice-notation
 
 
-    ## STEP 3: Use twilio.com/docs/sms/quickstart/python
-    #to send a separate message with each article's title and description to your phone number. 
+## ETAPA 3: Use twilio.com/docs/sms/quickstart/python
+# para enviar uma mensagem separada com o título e a descrição de cada artigo para o seu número de telefone.
 
-#TODO 8. - Create a new list of the first 3 article's headline and description using list comprehension.
+# TODO 8. - Crie uma nova lista com o título e a descrição dos 3 primeiros artigos usando compreensão de lista.
 
-#TODO 9. - Send each article as a separate message via Twilio. 
+# TODO 9. - Envie cada artigo como uma mensagem separada via Twilio.
 
-
-
-#Optional TODO: Format the message like this: 
+# TODO Opcional: Formate a mensagem assim: 
 """
 TSLA: 🔺2%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-or
+Título: Os fundos de hedge estavam certos ao investir na Tesla Inc. (TSLA)?.
+Resumo: Nós, do Insider Monkey, analisamos mais de 821 registros 13F que os fundos de hedge e investidores proeminentes são obrigados a arquivar na SEC. Os registros 13F mostram as posições de portfólio dos fundos e investidores em 31 de março, próximo ao auge do crash do mercado causado pelo coronavírus.
+ou
 "TSLA: 🔻5%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
+Título: Os fundos de hedge estavam certos ao investir na Tesla Inc. (TSLA)?.
+Resumo: Nós, do Insider Monkey, analisamos mais de 821 registros 13F que os fundos de hedge e investidores proeminentes são obrigados a arquivar na SEC. Os registros 13F mostram as posições de portfólio dos fundos e investidores em 31 de março, próximo ao auge do crash do mercado causado pelo coronavírus.
 """
-
