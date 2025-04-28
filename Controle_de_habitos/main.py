@@ -1,5 +1,6 @@
 import requests
 import datetime
+import webbrowser
 
 # Configurações do usuário
 pixela_endpoint = "https://pixe.la/v1/users"
@@ -66,6 +67,7 @@ def deletar_paginas():
 # Função para mostrar o link do gráfico
 def ver_grafico():
     print(f"Abra este link para ver seu gráfico de leitura:\nhttps://pixe.la/v1/users/{username}/graphs/{graph_id}.html")
+    webbrowser.open_new_tab(f"https://pixe.la/v1/users/{username}/graphs/{graph_id}.html")
 
 
 print(gerar_grafico())
