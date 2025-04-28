@@ -10,4 +10,16 @@ parametros_usuario = {
 }
 
 resposta = requests.post(url= pixela_endpoint, json=parametros_usuario)
-print(resposta.text)
+
+grafico_endpoint = f"{pixela_endpoint}/{parametros_usuario['username']}/graphs"
+
+grafico_config = {
+    "id": "grafico1",
+    "name": "Cycling Graph",
+    "unit": "km",
+    "type": "float",
+    "color": "ajisai"
+}
+
+resposta_grafico = requests.post(url=grafico_endpoint,json= grafico_config)
+print(resposta_grafico.text)
