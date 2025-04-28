@@ -64,10 +64,22 @@ if diferenca_percentual > 1:
 # para enviar uma mensagem separada com o título e a descrição de cada artigo para o seu número de telefone.
 
 # TODO 8. - Crie uma nova lista com o título e a descrição dos 3 primeiros artigos usando compreensão de lista.
-
+titulo_descricao = [f"headers: {dados_noticias["title"]}. \nApresentacao: {dados_noticias["description"]}" for dados_noticias in tres_artigos]
+print(titulo_descricao)
 # TODO 9. - Envie cada artigo como uma mensagem separada via Twilio.
 
 # TODO Opcional: Formate a mensagem assim: 
+# Formatar e enviar as mensagens
+simbolo_variacao = "🔺" if diferenca > 0 else "🔻"
+mensagens = [
+    f"{NOME_ACAO}: {simbolo_variacao}{abs(round(diferenca_percentual, 2))}%\n"
+    f"Título: {artigo['title']}\n"
+    f"Resumo: {artigo['description']}"
+    for artigo in tres_artigos
+]
+
+for mensagem in mensagens:
+    print(mensagem)  # Substitua por lógica de envio via Twilio, se necessário
 """
 TSLA: 🔺2%
 Título: Os fundos de hedge estavam certos ao investir na Tesla Inc. (TSLA)?.
