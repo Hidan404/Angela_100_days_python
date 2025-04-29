@@ -1,29 +1,24 @@
 import requests
-from datetime import datetime
 from dados_api_nutri import NutriApi
+from dados_api_sheet import SheetApi
 
 
 
 
-url = 'https://api.sheety.co/4a83785dd76a6d981cfc0442a524519d/planilhaDeCaminhada/workouts'
 
 
-novo_workout = {
-    "workout": {
-        "date": datetime.now().strftime("%d/%m/%Y"),
-        "time": datetime.now().strftime("%H:%M"),
-        "exercise": "Caminhada",
-        "duration": "30",
-        "calories": "150"
-    }
-}
 
 
-resposta = requests.post(url=url, json=novo_workout)
+
+
+
 print(resposta.text)
 
 def main():
     nutri_api = NutriApi()
+    sheet_api = SheetApi()
+
+    resposta = requests.post(url=, json=novo_workout)
 
     resposta = requests.post(url=nutri_api.exercicio_endpoint, json=nutri_api.body(), headers=nutri_api.headers())
     print(resposta.status_code)
