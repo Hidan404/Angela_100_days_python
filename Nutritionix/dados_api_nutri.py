@@ -1,9 +1,9 @@
 import requests
 
 class NutriApi():
-    def __init__(self):
+    def __init__(self,usuario_entrada):
         self.exercicio_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
-        self.usuario_entrada = "I walked for 60 minutes"
+        self.usuario_entrada = usuario_entrada
         self.ID = "42f42b8f"
         self.TOKEN = "739e728872888a6f982331c62d9f9ae8"
 
