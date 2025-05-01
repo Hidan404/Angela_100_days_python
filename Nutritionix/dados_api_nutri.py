@@ -1,12 +1,12 @@
 import requests
+import os
 
 class NutriApi():
     def __init__(self,usuario_entrada):
         self.exercicio_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
         self.usuario_entrada = usuario_entrada
-        self.ID = "42f42b8f"
-        self.TOKEN = "739e728872888a6f982331c62d9f9ae8"
-
+        self.ID = os.getenv("ID")
+        self.TOKEN = os.getenv("TOKEN_API_NUTRI")
     def headers(self):
         headers = {
             "x-app-id": self.ID,
