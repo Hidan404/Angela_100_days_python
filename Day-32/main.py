@@ -56,7 +56,7 @@ def main():
     elif dia_da_semana == 2:  # Quarta-feira
         print("Hoje é quarta-feira. O email não será enviado.")
     elif dia_da_semana == 3:  # Quinta-feira
-        print("Hoje é quinta-feira. O email não será enviado.")
+        enviar_email()
     elif dia_da_semana == 4:  # Sexta-feira
         print("Hoje é sexta-feira. O email não será enviado.")
     elif dia_da_semana == 5:  # Sábado
