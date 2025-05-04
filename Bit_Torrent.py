@@ -58,7 +58,7 @@ def baixar_torrent_por_magnet(link_magnetico, destino='.'):
 # Ponto de entrada principal do programa
 if __name__ == '__main__':
     # Link magnet para o torrent que será baixado
-    magnet = "magnet:?xt=urn:btih:775ea2a8823710a8941c25d52b267f2ec9ce93fb&dn=%5BErai-raws%5D%20Vigilante%3A%20Boku%20no%20Hero%20Academia%20Illegals%20-%2001%20%5B1080p%20CR%20WEB-DL%20AVC%20AAC%5D%5BMultiSub%5D%5B181FB670%5D&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce"
+    magnet = "magnet:?xt=urn:btih:aa9e9a825e7e4fdafda67e08dc516d96a0356472&dn=Crie aplicativos em Python com ChatGPT integrado via API!&tr=udp://tracker.openbittorrent.com:1337/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=http://tracker.renfei.net:8080/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=http://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://exodus.desync.com:6969/announce&tr=udp://open.free-tracker.ga:6969/announce&tr=http://www.torrentsnipe.info:2701/announce&tr=http://tracker.internetwarriors.net:1337/announce&tr=http://tracker.bittor.pw:1337/announce&tr=http://www.genesis-sp.org:2710/announce&tr=http://tracker.skyts.net:6969/announce&tr=udp://open.demonii.com:1337/announce&tr=udp://leet-tracker.moe:1337/announce&tr=http://p4p.arenabg.com:1337/announce"
     
     # Chama a função para iniciar o download
     baixar_torrent_por_magnet(magnet)
