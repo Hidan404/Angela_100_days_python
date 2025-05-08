@@ -6,5 +6,7 @@ with open("Day-45/filmes.html", "r", encoding="utf-8") as f:
     
 filmes = soup.find_all("div", class_="filme")
 for f in filmes:
-    titulo = f.find("div", class_ = "titulo")
+    titulo = f.find("div", class_ = "titulo").text
     print(titulo)
+    ano = f.find(name="div", class_="ano").text
+    print(ano)
