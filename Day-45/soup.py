@@ -10,3 +10,10 @@ for f in filmes:
     print(titulo)
     ano = f.find(name="div", class_="ano").text
     print(ano)
+    genero = f.find("div", class_="genero").text
+    print(genero)
+
+
+
+url = soup.select_one("p a")  
+print(url.attrs)  
