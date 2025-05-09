@@ -19,10 +19,13 @@ for tags in articles:
     artigos_links.append(links)
 
 votos = [int(score.getText().split()[0]) for score in soup.find_all("span", class_="score")]
-print(votos)
+
 
 
 voto_maior = max(votos)
 indice_voto_maior = votos.index(voto_maior)
 
-print(voto_maior, indice_voto_maior)
+texto_formatado = f"Maior numero: {voto_maior}, Indice: {indice_voto_maior}"
+print(texto_formatado)
+for v in votos:
+    print(v)
