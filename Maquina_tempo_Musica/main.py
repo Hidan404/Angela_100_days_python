@@ -14,8 +14,8 @@ def api_spotify():
         scope="playlist-modify-private"
     ))
 
-    usuario = sp.current_user()
-    return usuario[id], sp
+    usuario = sp.current_user()["id"]
+    return usuario, sp
 
 api_spotify()    
 
