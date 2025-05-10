@@ -5,15 +5,18 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import os
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
-    client_id= os.getenv("MTM_ID"),
-    client_secret= os.getenv("MTM_SECRET"),
-    redirect_uri="http://127.0.0.1:8888/callback",  # ou http://localhost:8888/callback
-    scope="playlist-modify-private"
-))
+def api_spotify():
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
+        client_id= os.getenv("MTM_ID"),
+        client_secret= os.getenv("MTM_SECRET"),
+        redirect_uri="http://127.0.0.1:8888/callback",  # ou http://localhost:8888/callback
+        scope="playlist-modify-private"
+    ))
 
-usuario = sp.current_user()
-print(usuario['id'])
+    usuario = sp.current_user()
+    return usuario, sp
+
+api_spotify()    
 
 cabeçalho = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
@@ -36,16 +39,37 @@ def raspar_titulos_musicas():
         print("Conexão bem-sucedida!")
         soup = BeautifulSoup(resposta.text, "html.parser")
         titulos = soup.select("li ul li h3")
-        titulos_filmes = []
+        titulos_musicas = []
         for i, titulo in enumerate(titulos[:100], 1):
             nome = titulo.get_text(strip=True)
-            titulos_filmes.append(f"{i:02d}. {nome}")
-
-        return titulos_filmes    
+            titulos_musicas.append(f"{i:02d}. {nome}")
+        print(titulos_musicas)
+        return titulos_musicas, data_usuario  
     else:
         print(f"Erro ao acessar o site: {resposta.status_code}")
 
-raspar_titulos_musicas()
+
+def criar_playlist():
+    urls= []
+    lista_musicas, data_completa = raspar_titulos_musicas()
+    usuario, sp = api_spotify()
+    ano = data_completa.split("-")[0]
+    
+    for musica in lista_musicas:
+
+        resultado = sp.search(q=f"faixa:{musica} ano: {ano}", type="track")
+        faixas = resultado["tracks"]["items"]
+
+        if faixas:
+            url = faixas[0]["uri"]
+            urls.append(url)
+            print(f"Musica ")
+
+
+
+
+
+criar_playlist()    
 
 
 
