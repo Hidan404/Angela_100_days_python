@@ -4,6 +4,7 @@ import requests
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import os
+from pprint import pprint
 
 def api_spotify():
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
@@ -43,7 +44,7 @@ def raspar_titulos_musicas():
         for i, titulo in enumerate(titulos[:100], 1):
             nome = titulo.get_text(strip=True)
             titulos_musicas.append(f"{i:02d}. {nome}")
-        print(titulos_musicas)
+        
         return titulos_musicas, data_usuario  
     else:
         print(f"Erro ao acessar o site: {resposta.status_code}")
@@ -56,14 +57,22 @@ def criar_playlist():
     ano = data_completa.split("-")[0]
     
     for musica in lista_musicas:
+        try:
+            resultado = sp.search(q=f"faixa:{musica} ano: {ano}", type="track")
+            faixas = resultado["tracks"]["items"]
 
-        resultado = sp.search(q=f"faixa:{musica} ano: {ano}", type="track")
-        faixas = resultado["tracks"]["items"]
+            if faixas:
+                url = faixas[0]["uri"]
+                urls.append(url)
+                print(f"{musica} Url encontrada {url}")
+            else:
+                print(f"{musica} não encontrada no Spotify")   
+        except Exception as e:
+            print(f"Erro ao buscar a musica {e}")    
 
-        if faixas:
-            url = faixas[0]["uri"]
-            urls.append(url)
-            print(f"Musica ")
+    print("\nLista de musicas encontradas")
+    pprint(urls)             
+
 
 
 
