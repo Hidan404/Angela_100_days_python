@@ -15,7 +15,7 @@ def api_spotify():
     ))
 
     usuario = sp.current_user()
-    return usuario, sp
+    return usuario[id], sp
 
 api_spotify()    
 
@@ -50,7 +50,7 @@ def raspar_titulos_musicas():
         print(f"Erro ao acessar o site: {resposta.status_code}")
 
 
-def criar_playlist():
+def buscar_uris_das_musicas_no_spotify():
     urls= []
     lista_musicas, data_completa = raspar_titulos_musicas()
     usuario, sp = api_spotify()
@@ -71,14 +71,28 @@ def criar_playlist():
             print(f"Erro ao buscar a musica {e}")    
 
     print("\nLista de musicas encontradas")
-    pprint(urls)             
+    pprint(urls)     
+
+    try:
+        nome_playlist = f"Playlist {data_completa}"
+        playlist = sp.user_playlist_create(
+            user=usuario,
+            name=nome_playlist,
+            public=False,
+            description=f"Playlist criada com músicas do Billboard Hot 100 de {data_completa}"
+        )
+        sp.playlist_add_items(playlist_id=playlist["id"], items=urls)
+        print(f"Playlist '{nome_playlist}' criada com sucesso!")
+    except Exception as e:
+        print(f"Erro ao criar a playlist: {e}")        
 
 
 
 
 
 
-criar_playlist()    
+if __name__ == "__main__":
+    buscar_uris_das_musicas_no_spotify()   
 
 
 
