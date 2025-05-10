@@ -1,6 +1,19 @@
 from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+import os
+
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
+    client_id= os.getenv("MTM_ID"),
+    client_secret= os.getenv("MTM_SECRET"),
+    redirect_uri="http://127.0.0.1:8888/callback",  # ou http://localhost:8888/callback
+    scope="playlist-modify-private"
+))
+
+usuario = sp.current_user()
+print(usuario['id'])
 
 cabeçalho = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
