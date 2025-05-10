@@ -25,7 +25,7 @@ cabeçalho = {
 
 def obter_data():
     data_input = input("Digite uma data no formato YYYY-MM-DD: ")
-    # Corrigido o formato para bater com o input
+    
     data_formatada = datetime.strptime(data_input, "%Y-%m-%d").date()
     return data_formatada
 
@@ -33,7 +33,7 @@ def raspar_titulos_musicas():
     data_usuario = str(obter_data())
     print(f"Data formatada: {data_usuario}")
 
-    url = f"https://www.billboard.com/charts/hot-100/{data_usuario}"
+    url = f"https://www.billboard.com/charts/mainstream-rock/{data_usuario}"
     resposta = requests.get(url, headers=cabeçalho)
 
     if resposta.status_code == 200:
