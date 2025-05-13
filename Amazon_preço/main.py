@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import smtplib
 
 
 url = "https://appbrewery.github.io/instant_pot/"
@@ -21,3 +22,12 @@ for preco in precos_div:
 
 preco_selecionado = float(precos[0].replace("..","."))
 
+if preco_selecionado < 100:
+    meu_email = "seu_email@gmail.com"
+    senha = "sua_senha"
+
+    with smtplib.SMTP("smtp.gmail.com", 587) as conexao:
+        conexao.starttls()
+        conexao.login(user=meu_email, password=senha)
+        mensagem = f"Subject:Alerta de Preço\n\nO preço caiu para {preco_selecionado}!"
+        conexao.sendmail(from_addr=meu_email, to_addrs="destinatario_email@gmail.com", msg=mensagem)
