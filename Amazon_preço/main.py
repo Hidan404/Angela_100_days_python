@@ -23,6 +23,7 @@ for preco in precos_div:
         continue  # Se não encontrar uma parte, ignora esse bloco
 print(precos)
 
+
 precos_convertidos = []
 for preco in precos:
     preco_float = float(preco.replace(".", "").replace(",", "."))
@@ -30,22 +31,22 @@ for preco in precos:
     print(preco_float)
 
 
-preco_selecionado = 0
-for preco in precos:
+preco_selecionado = None  
+for preco in precos_convertidos:
     if preco == 69.9:
         preco_selecionado = preco
-        print(preco_selecionado)
+        print(f"Preço selecionado encontrado: {preco_selecionado}")
+        break
 
-print(preco_selecionado)
 
-if preco_selecionado < 100:
+if preco_selecionado and preco_selecionado < 100:
     meu_email = "ronaldkurouzo@gmail.com"
     senha = os.getenv("SENHA_EMAIL")
 
     with smtplib.SMTP("smtp.gmail.com", 587) as conexao:
         conexao.starttls()
-        conexao.login(user=meu_email, password=senha,)
-        mensagem = f"Subject:Alerta de Preço\n\nO preço caiu para {preco_selecionado}!"
+        conexao.login(user=meu_email, password=senha)
+        mensagem = f"Subject:Alerta de Preço\n\nO preço caiu para R$ {preco_selecionado}!".encode("utf-8")
         conexao.sendmail(from_addr=meu_email, to_addrs="ronald.dev404@gmail.com", msg=mensagem)
 
 

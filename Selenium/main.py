@@ -11,8 +11,8 @@ driver = webdriver.Chrome(options=opcoes_chrome)
 driver.get("https://www.amazon.com.br/animal-social-Elliot-Aronson/dp/8576576007")
 
 preco_real = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.CLASS_NAME, 'a-price-whole'))
+    EC.visibility_of_element_located((By.CLASS_NAME, 'a-price-whole'))
 )
-preco_real =preco_real.text
+preco_inteiro =preco_real.text
 
-print(preco_real)
+print(preco_inteiro)
