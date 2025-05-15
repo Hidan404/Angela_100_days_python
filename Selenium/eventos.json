@@ -1,0 +1,27 @@
+{
+    "0": {
+        "data": "2025-05-16",
+        "evento": "PiterPy 2025",
+        "link": "https://www.python.org/events/python-events/1975/"
+    },
+    "1": {
+        "data": "2025-05-16",
+        "evento": "PyGrunn 2025",
+        "link": "https://www.python.org/events/python-events/1887/"
+    },
+    "2": {
+        "data": "2025-05-16",
+        "evento": "Flask Con 2025",
+        "link": "https://www.python.org/events/python-events/2025/"
+    },
+    "3": {
+        "data": "2025-05-17",
+        "evento": "PyCaxias 2025",
+        "link": "https://www.python.org/events/python-events/1983/"
+    },
+    "4": {
+        "data": "2025-05-18",
+        "evento": "Django Girls Caxias do Sul 2025",
+        "link": "https://www.python.org/events/python-user-group/1986/"
+    }
+}
