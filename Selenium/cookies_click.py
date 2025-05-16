@@ -1,23 +1,38 @@
-from selenium import webdriver
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+import time
 
+# Cria o navegador disfarçado (bypass Cloudflare)
+options = uc.ChromeOptions()
+options.add_argument("--no-first-run --no-service-autorun --password-store=basic")
+options.add_argument("--disable-blink-features=AutomationControlled")
 
-opcoes_chrome = webdriver.ChromeOptions()
-opcoes_chrome.add_experimental_option("detach", True)
-navegador = webdriver.Chrome(options=opcoes_chrome)
+# Inicializa o navegador com undetected_chromedriver
+driver = uc.Chrome(options=options)
 
+# Acessa o Cookie Clicker
+driver.get("https://orteil.dashnet.org/cookieclicker/")
 
-navegador.get("https://orteil.dashnet.org/cookieclicker/")
-linguagem = navegador.find_element(By.ID, "langSelect-EN")
-if linguagem.is_displayed():
-    linguagem.click()
-else:
-    # Se o botão de linguagem não estiver visível, clique no botão de linguagem
-    # que está na tela inicial
-    botao_ingles = navegador.find_element(By.ID, "langSelect-EN")
-    botao_ingles.click()
+# Aguarda o carregamento inicial
+time.sleep(10)  # espere o idioma aparecer (pode ajustar se o PC for lento)
 
+# Tenta clicar no botão de idioma PT-BR
+try:
+    idioma = driver.find_element(By.ID, "langSelect-PT-BR")
+    idioma.click()
+    print("✅ Idioma selecionado: Português.")
+except Exception as e:
+    print("⚠️ Não foi possível selecionar o idioma. Continuando...")
 
-botao = navegador.find_element(By.ID, "bigCookie")
-botao.click()
+# Aguarda o carregamento do jogo principal
+time.sleep(15)
+
+# Encontra o cookie gigante
+cookie = driver.find_element(By.ID, "bigCookie")
+
+# Loop de cliques infinitos
+print("🍪 Começando os cliques no cookie...")
+while True:
+    cookie.click()
+    
+
