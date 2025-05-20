@@ -1,28 +1,32 @@
 import time
-current_time = time.time()
-print(current_time) # seconds since Jan 1st, 1970 
+tempo_atual = time.time()
+print(tempo_atual) # segundos desde 1º de janeiro de 1970 
 
-# Write your code below 👇
+# Escreva seu código abaixo 👇
 
-def speed_calc_decorator():
-    def decorator(function):
+def decorador_calculo_velocidade():
+    def decorador(funcao):
         def wrapper():
-            start_time = time.time()
-            function()
-            end_time = time.time()
-            total_time = end_time - start_time
-            print(f"Função {function.__name__} levou {total_time} segundos para rodar.")
+            tempo_inicio = time.time()
+            funcao()
+            tempo_fim = time.time()
+            tempo_total = tempo_fim - tempo_inicio
+            print(f"Velocidade de execução de {funcao.__name__}: {tempo_total}s")
         return wrapper
-    return decorator
+    return decorador
   
 
-@speed_calc_decorator()
-def fast_function():
+@decorador_calculo_velocidade()
+def funcao_rapida():
     for i in range(1000000):
         i * i
 
 
-@speed_calc_decorator()
-def slow_function():
+@decorador_calculo_velocidade()
+def funcao_lenta():
     for i in range(10000000):
         i * i
+
+ 
+funcao_rapida()
+funcao_lenta()      
