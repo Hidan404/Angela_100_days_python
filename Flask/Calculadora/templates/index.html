@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>Calculadora</h1>
+    <form action="" method="post">
+        <label for="num1">Número 1:</label>
+        <input type="number" name="numero1" id="num1" required>
+        <br>
+        <label for="num2">Número 2:</label>
+        <input type="number" name="numero2" id="num2" required>
+        <br>
+        <label for="operation">Operación:</label>
+        <select name="operacao" id="operation">
+            <option value="somar">Somar</option>
+            <option value="subtracao">Restar</option>
+            <option value="multiplicar">Multiplicar</option>
+            <option value="dividir">Dividir</option>
+        </select>
+        <br>
+        <button type="submit">Calcular</button>
+        <br>
+        {% if result is not none %}
+            <h2>Resultado: {{ result }}</h2>
+        {% endif %}
+        {% if error %}
+            <h2 style="color: red;">Error: {{ error }}</h2>
+        {% endif %}
+        {% if message %}
+            <h2 style="color: green;">{{ message }}</h2>
+        {% endif %}
+    </form>
+</body>
+</html>
