@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
     <title>{{ title }}</title>
 </head>
 <body>
@@ -16,16 +17,16 @@
         <br>
         <label for="operation">Operación:</label>
         <select name="operacao" id="operation">
-            <option value="somar">Somar</option>
+            <option value="soma">Somar</option>
             <option value="subtracao">Restar</option>
-            <option value="multiplicar">Multiplicar</option>
-            <option value="dividir">Dividir</option>
+            <option value="multiplicacao">Multiplicar</option>
+            <option value="divisao">Dividir</option>
         </select>
         <br>
         <button type="submit">Calcular</button>
         <br>
-        {% if result is not none %}
-            <h2>Resultado: {{ result }}</h2>
+        {% if resultado is not none %}
+            <h2>Resultado: {{ resultado }}</h2>
         {% endif %}
         {% if error %}
             <h2 style="color: red;">Error: {{ error }}</h2>

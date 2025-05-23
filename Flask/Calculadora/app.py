@@ -23,8 +23,8 @@ def calculadora():
                 resultado = "Erro: Divisão por zero"
         else:
             resultado = "Operação inválida"
-        return render_template("index.html", resultado=resultado)
-    return render_template("index.html")
+        
+    return render_template("index.html", resultado=resultado)
 
 if __name__ == "__main__":
     app.run(debug=True)
