@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, app
-
+from flask import Flask, render_template, request
+from estudo import app
 
 
 @app.route('/', methods=['GET', 'POST'])

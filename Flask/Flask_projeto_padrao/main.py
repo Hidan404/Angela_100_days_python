@@ -1,4 +1,4 @@
-from flask import Flask, app
+from estudo import app
 
 
 if __name__ == "__main__":

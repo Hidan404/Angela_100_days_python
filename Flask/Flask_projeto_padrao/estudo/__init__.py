@@ -1,4 +1,7 @@
-from flask import Flask, render_template, request
-from estudo import index
+from flask import Flask
+import os
+
 
 app = Flask(__name__)
+
+
