@@ -1,4 +1,4 @@
-from flask import  render_template, request
+from flask import  render_template, request, url_for
 from estudo import app
 
 
@@ -16,3 +16,7 @@ def index():
         return render_template("index.html", nome=nome, idade=idade, email=email, mensagem=mensagem)
     
     return render_template("index.html")
+
+@app.route('/sobre')
+def sobre():
+    return render_template("sobre.html")
