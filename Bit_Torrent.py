@@ -1,64 +1,111 @@
-# Importa a biblioteca libtorrent, que permite baixar arquivos via protocolo BitTorrent
 import libtorrent as lt
-import time  # Biblioteca para usar pausas (sleep) e controle de tempo
+import time
+import os
+import requests
 
-# Função principal que realiza o download a partir de um link magnet
-def baixar_torrent_por_magnet(link_magnetico, destino='.'):
-    print(f'[*] Iniciando download do magnet:\n{link_magnetico}\n')
+class usando_vpn():
+    def __init__(self):
+        self.ip = ''
+        self.org = "" 
+        self.location = ""
 
-    # Cria uma nova sessão do BitTorrent, que gerencia os downloads
+    def verificando_vpn(self):
+        try:
+            ip_info = requests.get('https://ipinfo.io').json()
+            self.ip = ip_info.get('ip', '')
+            self.org = ip_info.get('org', '')
+            self.location = ip_info.get('country', '')
+            print(f"[*] IP Detectado: {self.ip} ({self.org}, {self.location})")
+            if "VPN" in self.org.upper() or "PRIVATE" in self.org.upper():
+                return True
+            return False
+        except:
+            return False
+
+
+class baixar_torrent_por_magnet:
+    def __init__(self):
+        self.sessao = lt.session()
+        self.sessao.listen_on(6881, 6891)
+
+    def usando_vpn(self):
+        vpn = usando_vpn()
+        return vpn.verificando_vpn()
+    
+    def main(self, link_magnetico, destino='downloads', resume_path='resume.data'):
+        print(f"[*] Iniciando sessão libtorrent...")
+
+        # Carregar estado anterior, se existir
+        if os.path.exists(resume_path):
+            with open(resume_path, 'rb') as f:
+                resume_data = f.read()
+        else:
+            resume_data = None
+
+        parametros = lt.add_torrent_params()
+        parametros.save_path = destino
+        parametros.url = link_magnetico
+        parametros.flags &= ~lt.add_torrent_params_flags_t.flag_paused
+        parametros.flags |= lt.add_torrent_params_flags_t.flag_auto_managed
+        parametros.flags |= lt.add_torrent_params_flags_t.flag_seed_mode
+        
+    
+
+
+def baixar_torrent_por_magnet(link_magnetico, destino='downloads', resume_path='resume.data'):
+    print(f"[*] Iniciando sessão libtorrent...")
+
     sessao = lt.session()
-
-    # Define a faixa de portas a serem usadas para conexões de rede (pode ignorar o aviso de obsoleto)
     sessao.listen_on(6881, 6891)
 
-    # Cria os parâmetros de configuração para o torrent
+    # Carregar estado anterior, se existir
+    if os.path.exists(resume_path):
+        with open(resume_path, 'rb') as f:
+            resume_data = f.read()
+    else:
+        resume_data = None
+
     parametros = lt.add_torrent_params()
-    
-    # Define o caminho onde os arquivos baixados serão salvos
     parametros.save_path = destino
-
-    # Define o link magnet que será usado para iniciar o download
     parametros.url = link_magnetico
-
-    # Remove a flag "pausado", para que o download comece imediatamente
     parametros.flags &= ~lt.add_torrent_params_flags_t.flag_paused
-
-    # Ativa o gerenciamento automático do torrent pela sessão
     parametros.flags |= lt.add_torrent_params_flags_t.flag_auto_managed
-
-    # Define o modo de seed (indica que os dados estão prontos para compartilhar — mesmo que não estejam ainda)
     parametros.flags |= lt.add_torrent_params_flags_t.flag_seed_mode
 
-    # Adiciona o torrent à sessão com os parâmetros definidos acima
+    if resume_data:
+        parametros = lt.read_resume_data(resume_data)
+
     manipulador = sessao.add_torrent(parametros)
 
-    # Aguarda até que os metadados do torrent (informações como nomes de arquivos, tamanho etc.) sejam carregados
-    print("[*] Baixando metadata...")
+    print("[*] Aguardando metadata...")
     while not manipulador.has_metadata():
-        time.sleep(1)  # Espera 1 segundo
-        print(".", end='', flush=True)  # Mostra progresso no terminal
-    print("\n[✓] Metadata obtida.")
-
-    # Começa o download dos arquivos após obter os metadados
-    print("[*] Iniciando o download dos arquivos...")
-
-    # Enquanto o torrent ainda não estiver completamente baixado
-    while not manipulador.is_seed():
-        status = manipulador.status()
-        print(f"Progresso: {status.progress * 100:.2f}% | "
-              f"Baixando: {status.download_rate / 1000:.2f} kB/s | "
-              f"Peers conectados: {status.num_peers}", end='\r')
         time.sleep(1)
 
-    # Quando o download estiver completo
+    print("[✓] Metadata carregada. Iniciando download...\n")
+    
+    try:
+        while not manipulador.is_seed():
+            status = manipulador.status()
+            print(f"Progresso: {status.progress * 100:.2f}% | "
+                  f"Baixando: {status.download_rate / 1000:.2f} kB/s | "
+                  f"Peers: {status.num_peers}", end='\r')
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("\n[!] Download pausado manualmente. Salvando estado...")
+        estado = lt.write_resume_data_buf(manipulador)
+        with open(resume_path, 'wb') as f:
+            f.write(estado)
+        print("[✓] Estado salvo. Você pode retomar o download mais tarde.")
+        return
+
     print("\n[✓] Download completo!")
     print(f"Arquivos salvos em: {destino}")
 
-# Ponto de entrada principal do programa
 if __name__ == '__main__':
-    # Link magnet para o torrent que será baixado
+    print("🔒 Verificando se VPN está ativa...")
+    if not usando_vpn():
+        print("⚠️  AVISO: Seu IP real está visível. Recomendado ativar VPN antes de prosseguir.")
+        input("Pressione ENTER para continuar mesmo assim (não recomendado)...")
+
     magnet = input("Digite o link magnet do torrent: ").strip()
-    
-    # Chama a função para iniciar o download
     baixar_torrent_por_magnet(magnet)
