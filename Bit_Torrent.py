@@ -58,7 +58,7 @@ def baixar_torrent_por_magnet(link_magnetico, destino='.'):
 # Ponto de entrada principal do programa
 if __name__ == '__main__':
     # Link magnet para o torrent que será baixado
-    magnet = "magnet:?xt=urn:btih:aa9e9a825e7e4fdafda67e08dc516d96a0356472&dn=Crie aplicativos em Python com ChatGPT integrado via API!&tr=udp://tracker.openbittorrent.com:1337/announce&tr=udp://tracker.bittor.pw:1337/announce&tr=http://tracker.renfei.net:8080/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=http://tracker.opentrackr.org:1337/announce&tr=udp://open.stealth.si:80/announce&tr=udp://tracker.torrent.eu.org:451/announce&tr=udp://exodus.desync.com:6969/announce&tr=udp://open.free-tracker.ga:6969/announce&tr=http://www.torrentsnipe.info:2701/announce&tr=http://tracker.internetwarriors.net:1337/announce&tr=http://tracker.bittor.pw:1337/announce&tr=http://www.genesis-sp.org:2710/announce&tr=http://tracker.skyts.net:6969/announce&tr=udp://open.demonii.com:1337/announce&tr=udp://leet-tracker.moe:1337/announce&tr=http://p4p.arenabg.com:1337/announce"
+    magnet = input("Digite o link magnet do torrent: ").strip()
     
     # Chama a função para iniciar o download
     baixar_torrent_por_magnet(magnet)
